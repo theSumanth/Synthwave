@@ -1,5 +1,6 @@
 const Input = ({ label, id, textarea, ...props }) => {
-  const classes = "w-64 p-2 rounded-md hover:border-white bg-neutral-950";
+  const classes =
+    "w-64 p-2 rounded-md hover:border-white bg-neutral-950 w-full";
 
   return (
     <div className="flex flex-col flex-1 items-start my-2">

@@ -1,4 +1,10 @@
-import { Form, NavLink, useSearchParams } from "react-router-dom";
+import {
+  Form,
+  NavLink,
+  json,
+  redirect,
+  useSearchParams,
+} from "react-router-dom";
 import AuthLandingScene from "../UI/AuthLandingScene";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
@@ -17,7 +23,7 @@ const Auth = () => {
 
   return (
     <AuthLandingScene>
-      <Form className="flex flex-col">
+      <Form method="POST" className="flex flex-col w-1/5">
         <h1 className="font-bold text-3xl mb-4 text-purple-500">{heading}</h1>
         {!isLogin && (
           <>
@@ -56,7 +62,7 @@ const Auth = () => {
           required
         />
         <div className="mt-6 flex flex-col">
-          <Button>{isLogin ? "Log in" : "Sign up"}</Button>
+          <Button type="submit">{isLogin ? "Log in" : "Sign up"}</Button>
           {!isAdmin && (
             <Button underline type="button">
               <NavLink
@@ -75,3 +81,63 @@ const Auth = () => {
 };
 
 export default Auth;
+
+export async function action({ request }) {
+  const searchParams = new URL(request.url).searchParams;
+  const mode = searchParams.get("mode");
+  const type = searchParams.get("type");
+
+  const formData = await request.formData();
+  const authData = Object.fromEntries(formData.entries());
+
+  const config = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (mode === "login") {
+    config.headers = {
+      "Content-Type": "application/json",
+      // Authorization: "Bearer " + getAuthToken(),
+    };
+  }
+
+  let url = import.meta.env.VITE_API_URL;
+
+  console.log(url);
+
+  if (type === "admin" && mode === "login") {
+    url += "/admin/login";
+  } else if (type === "user" && mode === "login") {
+    url += "/user/login";
+  } else {
+    url += "/signup";
+  }
+
+  const response = await fetch(url, {
+    ...config,
+    body: JSON.stringify(authData),
+  });
+
+  const resData = await response.json();
+
+  if (!response.ok) {
+    return json(
+      { message: resData.message, errors: resData.errorData },
+      { status: 500 }
+    );
+  }
+
+  if (resData.token && resData.userId) {
+    localStorage.setItem("token", resData.token);
+    localStorage.setItem("userId", resData.userId);
+  }
+
+  if (resData.userDetails) {
+    localStorage.setItem("user", resData.userDetails);
+  }
+
+  return redirect("/posts");
+}

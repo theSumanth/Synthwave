@@ -7,7 +7,11 @@ const Navbar = () => {
   const navbarElements = [
     { text: "Home", Icon: Home, path: "/home" },
     { text: "Search", Icon: Search, path: "/home/search" },
-    { text: "Create a Podcast", Icon: DiamondPlus, path: "/create-podcast" },
+    {
+      text: "Create a Podcast",
+      Icon: DiamondPlus,
+      path: "/home/create-podcast",
+    },
   ];
 
   return (
