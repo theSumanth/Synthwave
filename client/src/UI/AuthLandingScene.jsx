@@ -5,8 +5,8 @@ import logo from "/images/logo.png";
 
 const AuthLandingScene = ({ children }) => {
   return (
-    <>
-      <nav className="flex items-center bg-black bg-opacity-50 shadow-lg p-4 fixed w-full justify-between backdrop-blur">
+    <section className="h-screen flex flex-col">
+      <nav className="flex items-center bg-black bg-opacity-50 shadow-lg p-4 w-full justify-between backdrop-blur">
         <NavLink to={"/"} className="flex items-center gap-2">
           <img
             src={logo}
@@ -24,7 +24,7 @@ const AuthLandingScene = ({ children }) => {
           </NavLink>
         </div>
       </nav>
-      <main className="flex items-center justify-center gap-44 flex-row h-screen">
+      <main className="flex items-center justify-center gap-32 max-md:flex-col lg:flex-row h-screen">
         {children}
         <div>
           <div className="flex flex-col items-center justify-center">
@@ -45,7 +45,7 @@ const AuthLandingScene = ({ children }) => {
           </div>
         </div>
       </main>
-    </>
+    </section>
   );
 };
 
