@@ -2,7 +2,7 @@ import logo from "/images/logo.png";
 
 const PodcastCard = () => {
   return (
-    <div className="group flex flex-col m-2 p-4 hover:bg-neutral-800 rounded hover:scale-105 transition-all hover:cursor-pointer">
+    <div className="flex flex-col m-2 items-center p-4 hover:bg-neutral-800 rounded hover:scale-105 transition-all hover:cursor-pointer">
       <img
         src={logo}
         alt=""

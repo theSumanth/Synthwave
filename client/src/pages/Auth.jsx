@@ -23,7 +23,10 @@ const Auth = () => {
 
   return (
     <AuthLandingScene>
-      <Form method="POST" className="flex flex-col w-1/5">
+      <Form
+        method="POST"
+        className="flex flex-col lg:w-1/5 max-sm:w-2/3 max-md:mt-6"
+      >
         <h1 className="font-bold text-3xl mb-4 text-purple-500">{heading}</h1>
         {!isLogin && (
           <>

@@ -11,11 +11,13 @@ const AuthLandingScene = ({ children }) => {
           <img
             src={logo}
             alt="Music waves in a shape of a moon"
-            className="aspect-square h-12 w-12"
+            className="aspect-square h-12 w-12 max-sm:h-8 max-sm:w-8"
           />
-          <h1 className="font-bold text-lg">Synthwave Podcasts</h1>
+          <h1 className="font-bold text-lg max-sm:text-base">
+            Synthwave Podcasts
+          </h1>
         </NavLink>
-        <div>
+        <div className="flex items-center max-sm:flex-col max-sm:text-xs">
           <NavLink to={"/auth?mode=signup&type=user"}>
             <Button textonly>Sign up</Button>
           </NavLink>
@@ -24,25 +26,21 @@ const AuthLandingScene = ({ children }) => {
           </NavLink>
         </div>
       </nav>
-      <main className="flex items-center justify-center gap-32 max-md:flex-col lg:flex-row h-screen">
+      <main className="flex items-center justify-center gap-32 max-md:flex-col lg:flex-row md:h-screen">
         {children}
-        <div>
-          <div className="flex flex-col items-center justify-center">
-            <img
-              src={logo}
-              alt="Music waves in a shape of a moon"
-              className="aspect-square h-56 w-56"
-            />
-            <h1 className="font-bold text-3xl mb-4">Synthwave Podcasts</h1>
-            <p className="text-center">
-              Listen to uninterrupted Podcasts through{" "}
-              <span className="text-purple-400 font-semibold">Synthwave</span>.
-              <br />
-              <span className="text-sm font-bold">
-                #StreamSeeminglyThruSynth
-              </span>
-            </p>
-          </div>
+        <div className="flex flex-col items-center justify-center max-md:mb-8">
+          <img
+            src={logo}
+            alt="Music waves in a shape of a moon"
+            className="aspect-square h-56 w-56"
+          />
+          <h1 className="font-bold text-3xl mb-4">Synthwave Podcasts</h1>
+          <p className="text-center">
+            Listen to uninterrupted Podcasts through{" "}
+            <span className="text-purple-400 font-semibold">Synthwave</span>.
+            <br />
+            <span className="text-sm font-bold">#StreamSeeminglyThruSynth</span>
+          </p>
         </div>
       </main>
     </section>

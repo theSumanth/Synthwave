@@ -21,8 +21,10 @@ const CreatePodcast = () => {
   };
 
   return (
-    <div className="m-6 w-1/3 flex flex-col">
-      <h1 className="font-bold text-3xl mb-4">Create a Podcast</h1>
+    <div className="m-6 w-1/3 flex flex-col max-md:w-full">
+      <h1 className="font-bold text-3xl mb-4 text-purple-500">
+        Create a Podcast
+      </h1>
       <Form className="flex flex-col">
         <Input
           label="Podcast Name"
@@ -70,7 +72,7 @@ const CreatePodcast = () => {
               className="rounded-mdhover:cursor-pointer inline-block"
               size={20}
             />
-            <span className="text-xs">Upload</span>
+            <span className="text-xs">Upload file</span>
           </Button>
 
           {audioFile && (

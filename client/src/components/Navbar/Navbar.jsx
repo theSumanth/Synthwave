@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { DiamondPlus, Home, Search } from "lucide-react";
 
 import Sidebar from "./Sidebar";
@@ -14,6 +15,12 @@ const Navbar = () => {
     },
   ];
 
+  const [currentPath, setCurrentPath] = useState("/");
+
+  const handlePathChange = (path) => {
+    setCurrentPath(path);
+  };
+
   return (
     <Sidebar>
       {navbarElements.map((element) => (
@@ -22,6 +29,8 @@ const Navbar = () => {
           Icon={element.Icon}
           label={element.text}
           path={element.path}
+          onPathChange={handlePathChange}
+          currentPath={currentPath}
         />
       ))}
     </Sidebar>
