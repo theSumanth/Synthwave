@@ -143,6 +143,8 @@ export async function action({ request }) {
     return json({ message: resData.message }, { status: resData.statusCode });
   }
 
+  console.log(resData, mode);
+
   if (
     mode === "login" &&
     resData.token &&
@@ -150,8 +152,8 @@ export async function action({ request }) {
     resData.isAdmin
   ) {
     localStorage.setItem("token", resData.token);
-    localStorage.setItem("user", resData.userDetails);
-    localStorage.setItem("typeOfLogin", resData.isAdmin);
+    // localStorage.setItem("user", resData.userDetails);
+    localStorage.setItem("typeOfLogin", resData.userType);
     console.log(resData);
   }
   if (mode === "signup") {

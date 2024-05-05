@@ -17,7 +17,6 @@ const Podcasts = () => {
     queryFn: fetchPodcasts,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      console.log("lastpage", lastPage);
       const nextPage = lastPage.Podcasts?.length
         ? allPages.length + 1
         : undefined;

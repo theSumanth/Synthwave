@@ -6,8 +6,12 @@ const PodcastCard = ({ podcast }) => {
         alt="Podcast thumbnail"
         className="aspect-square h-32 w-32 shadow-md mb-2 object-cover rounded-md"
       />
-      <h1 className="font-medium text-lg">{podcast.podcastName}</h1>
-      <span className="text-xs font-medium">By {podcast.speaker}</span>
+      <h1 className="font-medium text-lg overflow-hidden">
+        {podcast.podcastName}
+      </h1>
+      <span className="text-xs font-medium overflow-hidden">
+        By {podcast.speaker}
+      </span>
       <span className="text-xs font-medium text-purple-500">
         {podcast.category}
       </span>
