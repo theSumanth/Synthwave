@@ -5,7 +5,7 @@ import Button from "../UI/Button";
 const LoginLayout = () => {
   return (
     <AuthLandingScene>
-      <div className="flex gap-2 flex-col max-sm:mt-12">
+      <div className="flex gap-2 flex-col max-md:mt-12">
         <NavLink to={"/auth?mode=login&type=user"}>
           <Button>Log in / Sign up for user</Button>
         </NavLink>

@@ -2,13 +2,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import RootLayout from "./pages/Root";
-import LoginLayout from "./pages/LoginLayout";
-import Auth, { action as authAction } from "./pages/Auth";
-import "./App.css";
 import HomeLayout from "./pages/HomeLayout";
+import LoginLayout from "./pages/LoginLayout";
 import Podcasts from "./pages/Podcast/Podcasts";
 import CreatePodcast from "./pages/Podcast/CreatePodcast";
-import { action as logoutAction } from "../src/pages/Logout";
+import SearchPodcast from "./pages/Podcast/SearchPodcast";
+import Auth, { action as authAction } from "./pages/Auth";
+import { loader as logoutLoader } from "../src/pages/Logout";
+import "./App.css";
+import PageContextProvider from "./store/PageContextProvider";
 
 const router = createBrowserRouter([
   {
@@ -23,10 +25,10 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Podcasts /> },
           { path: "create-podcast", element: <CreatePodcast /> },
-          { path: "search", element: <></> },
+          { path: "search", element: <SearchPodcast /> },
         ],
       },
-      { path: "logout", action: logoutAction },
+      { path: "logout", loader: logoutLoader },
     ],
   },
 ]);
@@ -36,7 +38,9 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <PageContextProvider>
+        <RouterProvider router={router} />
+      </PageContextProvider>
     </QueryClientProvider>
   );
 }

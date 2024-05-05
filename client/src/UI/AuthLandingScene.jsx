@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+
 import Button from "./Button";
 
 import logo from "/images/logo.png";
@@ -26,7 +27,7 @@ const AuthLandingScene = ({ children }) => {
           </NavLink>
         </div>
       </nav>
-      <main className="flex items-center justify-center gap-32 max-md:flex-col lg:flex-row md:h-screen">
+      <main className="flex items-center justify-center gap-32 max-md:gap-16 max-md:flex-col lg:flex-row md:h-screen">
         {children}
         <div className="flex flex-col items-center justify-center max-md:mb-8">
           <img

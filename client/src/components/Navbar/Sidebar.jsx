@@ -11,7 +11,7 @@ const Sidebar = ({ children }) => {
           <img
             src={logo}
             alt="Music waves in a shape of a moon"
-            className="aspect-square h-8 w-8 max-md:h-4 max-md:w-4"
+            className="aspect-square h-8 w-8 max-md:h-6 max-md:w-6"
           />
           <h1 className="font-bold text-base max-md:hidden">Synthwave</h1>
         </div>
@@ -21,7 +21,7 @@ const Sidebar = ({ children }) => {
         <NavLink
           to={"/logout"}
           className={
-            "flex gap-2 text-red-500 mx-4 my-2 p-2 hover:bg-neutral-800 rounded max-md:mx-0 justify-center"
+            "flex gap-2 text-red-500 mx-4 my-2 p-2 hover:bg-neutral-800 rounded max-md:mx-0 max-md:justify-center"
           }
         >
           <LogOut />

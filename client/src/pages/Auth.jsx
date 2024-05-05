@@ -3,13 +3,19 @@ import {
   NavLink,
   json,
   redirect,
+  useActionData,
   useSearchParams,
 } from "react-router-dom";
+import { Toaster, toast } from "sonner";
+
 import AuthLandingScene from "../UI/AuthLandingScene";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
+import { CircleX } from "lucide-react";
 
 const Auth = () => {
+  const actionData = useActionData();
+
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
   const type = searchParams.get("type");
@@ -18,8 +24,17 @@ const Auth = () => {
   const isAdmin = type === "admin";
 
   let heading = "Sign up - User";
-  if (isLogin && isAdmin) heading = "Log in - Admin";
-  else if (isLogin) heading = "Login - User";
+  if (isLogin && isAdmin) {
+    heading = "Log in - Admin";
+  } else if (isLogin) {
+    heading = "Login - User";
+  }
+
+  if (actionData) {
+    toast(actionData.message, {
+      icon: <CircleX color="white" />,
+    });
+  }
 
   return (
     <AuthLandingScene>
@@ -78,6 +93,21 @@ const Auth = () => {
             </Button>
           )}
         </div>
+        <Toaster
+          position="bottom-right"
+          visibleToasts={1}
+          icons={{ error: <CircleX /> }}
+          toastOptions={{
+            classNames: {
+              toast: "bg-red-600",
+              title: "text-white",
+              description: "text-red-400",
+              actionButton: "bg-zinc-400",
+              cancelButton: "bg-orange-400",
+              closeButton: "bg-lime-400",
+            },
+          }}
+        />
       </Form>
     </AuthLandingScene>
   );
@@ -93,54 +123,39 @@ export async function action({ request }) {
   const formData = await request.formData();
   const authData = Object.fromEntries(formData.entries());
 
-  const config = {
+  let url = import.meta.env.VITE_API_URL + "/auth/" + mode;
+
+  if (mode === "login") {
+    url += "?userType=" + type;
+  }
+
+  const response = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-  };
-
-  if (mode === "login") {
-    config.headers = {
-      "Content-Type": "application/json",
-      // Authorization: "Bearer " + getAuthToken(),
-    };
-  }
-
-  let url = import.meta.env.VITE_API_URL;
-
-  console.log(url);
-
-  if (type === "admin" && mode === "login") {
-    url += "/admin/login";
-  } else if (type === "user" && mode === "login") {
-    url += "/user/login";
-  } else {
-    url += "/signup";
-  }
-
-  const response = await fetch(url, {
-    ...config,
     body: JSON.stringify(authData),
   });
 
   const resData = await response.json();
 
   if (!response.ok) {
-    return json(
-      { message: resData.message, errors: resData.errorData },
-      { status: 500 }
-    );
+    return json({ message: resData.message }, { status: resData.statusCode });
   }
 
-  if (resData.token && resData.userId) {
+  if (
+    mode === "login" &&
+    resData.token &&
+    resData.userDetails &&
+    resData.isAdmin
+  ) {
     localStorage.setItem("token", resData.token);
-    localStorage.setItem("userId", resData.userId);
-  }
-
-  if (resData.userDetails) {
     localStorage.setItem("user", resData.userDetails);
+    localStorage.setItem("typeOfLogin", resData.isAdmin);
+    console.log(resData);
   }
-
-  return redirect("/posts");
+  if (mode === "signup") {
+    return redirect("/");
+  }
+  return redirect("/home");
 }

@@ -1,13 +1,22 @@
-import { useRef, useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
-import { ArrowUpFromLine } from "lucide-react";
+import { useContext, useRef, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { ArrowUpFromLine, CircleCheck, SquarePlus } from "lucide-react";
+import { Toaster, toast } from "sonner";
 
-import Input from "../../UI/Input";
 import Button from "../../UI/Button";
+import { createNewPodcast } from "../../util/http";
+import { PageContext } from "../../store/PageContextProvider";
+import CreatePodcastForm from "../../components/CreatePodcastForm";
 
 const CreatePodcast = () => {
   const inputRef = useRef();
+  const inputRef2 = useRef();
   const [audioFile, setAudioFile] = useState(null);
+  const [imageObj, setImageObj] = useState({
+    imageBase64: "",
+    imageUrl: null,
+  });
 
   const navigate = useNavigate();
 
@@ -16,8 +25,49 @@ const CreatePodcast = () => {
     setAudioFile(file);
   };
 
-  const handleOnClick = () => {
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const base64String = reader.result.split(",")[1];
+      setImageObj({
+        imageBase64: base64String,
+        imageUrl: URL.createObjectURL(file),
+      });
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const handleUploadAudioClick = () => {
     inputRef.current.click();
+  };
+
+  const handleUploadImageClick = () => {
+    inputRef2.current.click();
+  };
+
+  const pageCtx = useContext(PageContext);
+
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: createNewPodcast,
+    onSuccess: () => {
+      navigate("/home");
+      pageCtx.changePageStatus("/home");
+      toast("Posted your podcast", {
+        icon: <CircleCheck color="white" />,
+      });
+    },
+  });
+
+  const handlePodcastUpload = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    formData.append("file", audioFile);
+    formData.append("thumbnailUrl", imageObj.imageBase64);
+
+    mutate({ formData });
   };
 
   return (
@@ -25,41 +75,34 @@ const CreatePodcast = () => {
       <h1 className="font-bold text-3xl mb-4 text-purple-500">
         Create a Podcast
       </h1>
-      <Form className="flex flex-col">
-        <Input
-          label="Podcast Name"
-          id="name"
-          name="name"
-          type="text"
-          placeholder={"Enter Podcast name"}
-          required
-        />
-        <Input
-          textarea
-          label="Description"
-          id="description"
-          name="description"
-          type="text"
-          placeholder={"Enter description"}
-          required
-        />
-        <Input
-          label="Type of Podcast"
-          id="typeofpodcast"
-          name="TypeOfPodcast"
-          type="text"
-          placeholder={"Audio/Video "}
-          required
-        />
-        <Input
-          label="Speaker Name"
-          id="speakername"
-          name="speakername"
-          type="text"
-          placeholder={"Enter the speaker name"}
-          required
-        />
-        <div className="my-4 flex gap-4">
+      <form
+        className="flex flex-col"
+        method="POST"
+        onSubmit={handlePodcastUpload}
+      >
+        <div
+          className="border-solid hover:cursor-pointer border-neutral-800 border-2 w-20 h-20 flex items-center justify-center rounded-md"
+          onClick={handleUploadImageClick}
+        >
+          <input
+            ref={inputRef2}
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          {imageObj.imageUrl && (
+            <img
+              src={imageObj.imageUrl}
+              className="aspect-sqaure object-cover w-20 h-20 rounded-md"
+            />
+          )}
+          {!imageObj.imageUrl && <SquarePlus />}
+        </div>
+
+        <CreatePodcastForm />
+
+        <div className="my-4">
           <input
             ref={inputRef}
             type="file"
@@ -67,7 +110,7 @@ const CreatePodcast = () => {
             onChange={handleFileChange}
             className="hidden"
           />
-          <Button onClick={handleOnClick} type="button">
+          <Button onClick={handleUploadAudioClick} type="button">
             <ArrowUpFromLine
               className="rounded-mdhover:cursor-pointer inline-block"
               size={20}
@@ -76,7 +119,7 @@ const CreatePodcast = () => {
           </Button>
 
           {audioFile && (
-            <div>
+            <div className="mt-4">
               <audio controls>
                 <source
                   src={URL.createObjectURL(audioFile)}
@@ -91,12 +134,34 @@ const CreatePodcast = () => {
           id="form-actions"
           className="flex items-center justify-end font-extrabold"
         >
-          <Button underline type="button" onClick={() => navigate("..")}>
+          <Button
+            underline
+            type="button"
+            onClick={() => {
+              navigate("..");
+              pageCtx.changePageStatus("/home");
+              toast("Posted your podcast", {
+                icon: <CircleCheck color="white" />,
+              });
+            }}
+          >
             Cancel
           </Button>
-          <Button type="submit">Post the Podcast</Button>
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Posting" : "Post the Podcast"}
+          </Button>
         </div>
-      </Form>
+      </form>
+      <Toaster
+        position="bottom-right"
+        visibleToasts={1}
+        toastOptions={{
+          classNames: {
+            toast: "bg-green-600",
+            title: "text-white",
+          },
+        }}
+      />
     </div>
   );
 };
