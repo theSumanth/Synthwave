@@ -17,7 +17,7 @@ import CreatePodcastForm from "../../components/CreatePodcastForm";
 const CreatePodcast = () => {
   const inputRef = useRef();
   const inputRef2 = useRef();
-  const [audioFile, setAudioFile] = useState(null);
+  const [podcastFile, setPodcastFile] = useState(null);
   const [imageObj, setImageObj] = useState({
     imageBase64: "",
     imageUrl: null,
@@ -27,7 +27,17 @@ const CreatePodcast = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setAudioFile(file);
+    setPodcastFile(file);
+    toast.success("File uploaded succesfully", {
+      classNames: {
+        toast: "bg-green-400",
+        title: "text-green-400",
+        description: "text-green-400",
+        actionButton: "bg-zinc-400",
+        cancelButton: "bg-orange-400",
+        closeButton: "bg-lime-400",
+      },
+    });
   };
 
   const handleImageChange = (event) => {
@@ -69,14 +79,19 @@ const CreatePodcast = () => {
     },
   });
 
+  const [fileType, setFileType] = useState("audio");
+
   const handlePodcastUpload = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("file", audioFile);
+    formData.append("file", podcastFile);
     formData.append("thumbnailUrl", imageObj.imageBase64);
+    formData.append("category", fileType);
 
     mutate({ formData });
   };
+
+  console.log(fileType);
 
   return (
     <div className="m-6 w-1/3 flex flex-col max-md:w-full">
@@ -108,13 +123,16 @@ const CreatePodcast = () => {
           {!imageObj.imageUrl && <SquarePlus />}
         </div>
 
-        <CreatePodcastForm />
+        <CreatePodcastForm
+          onChangeType={(value) => setFileType(value)}
+          fileType={fileType}
+        />
 
         <div className="my-4">
           <input
             ref={inputRef}
             type="file"
-            accept="audio/*"
+            accept={fileType === "audio" ? "audio/*" : "video/*"}
             onChange={handleFileChange}
             className="hidden"
           />
@@ -126,17 +144,18 @@ const CreatePodcast = () => {
             <span className="text-xs">Upload file</span>
           </Button>
 
-          {audioFile && (
+          {fileType === "audio" && podcastFile && (
             <div className="mt-4">
               <audio controls>
                 <source
-                  src={URL.createObjectURL(audioFile)}
-                  type={audioFile.type}
+                  src={URL.createObjectURL(podcastFile)}
+                  type={podcastFile.type}
                 />
                 Your browser does not support the audio element.
               </audio>
             </div>
           )}
+          {fileType === "video" && podcastFile && <span>{podcastFile}</span>}
         </div>
         <div
           id="form-actions"
@@ -160,20 +179,7 @@ const CreatePodcast = () => {
           </Button>
         </div>
       </form>
-      <Toaster
-        position="bottom-right"
-        visibleToasts={1}
-        toastOptions={{
-          classNames: {
-            toast: "bg-red-600",
-            title: "text-white",
-            description: "text-red-400",
-            actionButton: "bg-zinc-400",
-            cancelButton: "bg-orange-400",
-            closeButton: "bg-lime-400",
-          },
-        }}
-      />
+      <Toaster position="bottom-right" visibleToasts={1} />
     </div>
   );
 };

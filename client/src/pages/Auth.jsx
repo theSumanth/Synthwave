@@ -143,13 +143,15 @@ export async function action({ request }) {
     return json({ message: resData.message }, { status: resData.statusCode });
   }
 
-  console.log(resData, mode);
-
   if (mode === "login") {
     localStorage.setItem("token", resData.token);
     localStorage.setItem("user", JSON.stringify(resData.userDetails));
     localStorage.setItem("typeOfLogin", resData.userType);
-    console.log(resData);
+
+    const expirationDate = new Date();
+    expirationDate.setHours(expirationDate.getHours() + 1);
+
+    localStorage.setItem("expiration", expirationDate.toISOString());
   }
   if (mode === "signup") {
     return redirect("/");

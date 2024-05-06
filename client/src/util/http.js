@@ -19,6 +19,43 @@ export async function fetchPodcasts({ pageParam }) {
   return response.json();
 }
 
+export async function fetchTrendingPodcasts({ pageParam }) {
+  const response = await fetch(
+    url + `/home/podcasts/trendingPods/${pageParam}`,
+    {
+      headers: {
+        Authorization: "Bearer " + getAuthToken(),
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the podcasts");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  return response.json();
+}
+
+export async function fetchFavPodcasts() {
+  const response = await fetch(url + `/home/fav-podcast/`, {
+    headers: {
+      Authorization: "Bearer " + getAuthToken(),
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error("An error occurred while fetching the podcasts");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  return response.json();
+}
+
 export async function createNewPodcast({ formData }) {
   const response = await fetch(url + "/admin/add-podcast", {
     method: "POST",
@@ -102,6 +139,7 @@ export async function addPodcastToFav({ podcastId, signal }) {
     headers: {
       Authorization: "Bearer " + getAuthToken(),
     },
+    signal: signal,
   });
 
   if (!response.ok) {

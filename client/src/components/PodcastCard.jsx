@@ -24,7 +24,7 @@ const PodcastCard = ({ podcast }) => {
         By {podcast.speaker}
       </span>
       <span className="text-xs font-medium text-purple-500">
-        {podcast.category}
+        {podcast.category} - {`${podcast.views} views`}
       </span>
     </div>
   );

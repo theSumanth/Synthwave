@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import RootLayout from "./pages/Root";
@@ -7,19 +11,27 @@ import LoginLayout from "./pages/LoginLayout";
 import Podcasts from "./pages/Podcast/Podcasts";
 import CreatePodcast from "./pages/Podcast/CreatePodcast";
 import SearchPodcast from "./pages/Podcast/SearchPodcast";
-import Auth, { action as authAction } from "./pages/Auth";
-import { loader as logoutLoader } from "../src/pages/Logout";
-import "./App.css";
+import Error from "./pages/Error.jsx";
 import PageContextProvider from "./store/PageContextProvider";
-import { checkAuthorized } from "./util/auth";
 import ViewSinglePodcast, {
   loader as addViewForPodcast,
 } from "./pages/Podcast/ViewSinglePodcast";
+import Auth, { action as authAction } from "./pages/Auth";
+import { action as logoutAction } from "../src/pages/Logout";
+import { checkAuthorized, checkIsAdmin } from "./util/auth";
+import { fetchPodcasts, fetchTrendingPodcasts } from "./util/http.js";
+import "./App.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: (
+      <Error
+        message={"Failed to provide response"}
+        title={"An error occured"}
+      />
+    ),
     children: [
       { index: true, element: <LoginLayout /> },
       { path: "auth", element: <Auth />, action: authAction },
@@ -28,17 +40,38 @@ const router = createBrowserRouter([
         element: <HomeLayout />,
         loader: checkAuthorized,
         children: [
-          { index: true, element: <Podcasts /> },
-          { path: "create-podcast", element: <CreatePodcast /> },
+          {
+            index: true,
+            element: (
+              <Podcasts fetchFn={fetchPodcasts} qKey={"Synthwave Podcasts"} />
+            ),
+          },
+          {
+            path: "create-podcast",
+            element: <CreatePodcast />,
+            loader: () => {
+              if (!checkIsAdmin()) return redirect("/home");
+              return null;
+            },
+          },
           { path: "search", element: <SearchPodcast /> },
           {
             path: ":podcastId",
             element: <ViewSinglePodcast />,
             loader: addViewForPodcast,
           },
+          {
+            path: "trending-podcasts",
+            element: (
+              <Podcasts
+                fetchFn={fetchTrendingPodcasts}
+                qKey={"Trending Podcasts"}
+              />
+            ),
+          },
         ],
       },
-      { path: "logout", loader: logoutLoader },
+      { path: "logout", action: logoutAction },
     ],
   },
 ]);
