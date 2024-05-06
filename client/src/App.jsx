@@ -3,7 +3,7 @@ import {
   redirect,
   RouterProvider,
 } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import RootLayout from "./pages/Root";
 import HomeLayout from "./pages/HomeLayout";
@@ -19,7 +19,11 @@ import ViewSinglePodcast, {
 import Auth, { action as authAction } from "./pages/Auth";
 import { action as logoutAction } from "../src/pages/Logout";
 import { checkAuthorized, checkIsAdmin } from "./util/auth";
-import { fetchPodcasts, fetchTrendingPodcasts } from "./util/http.js";
+import {
+  fetchPodcasts,
+  fetchTrendingPodcasts,
+  queryClient,
+} from "./util/http.js";
 import "./App.css";
 
 const router = createBrowserRouter([
@@ -75,8 +79,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-const queryClient = new QueryClient();
 
 function App() {
   return (

@@ -70,9 +70,7 @@ const CreatePodcast = () => {
     onSuccess: () => {
       navigate("/home");
       pageCtx.changePageStatus("/home");
-      toast("Posted your podcast", {
-        icon: <CircleCheck color="white" />,
-      });
+      toast.success("Posted your podcast");
     },
     onError: () => {
       toast("Failed to post the podcast", { icon: <CircleX color="white" /> });

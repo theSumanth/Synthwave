@@ -10,9 +10,10 @@ import {
   url as API_KEY,
   addViewForPodcast,
   addPodcastToFav,
+  queryClient,
 } from "../../util/http";
-import { CircleCheck, Plus } from "lucide-react";
-import { toast } from "sonner";
+import { Plus } from "lucide-react";
+import { Toaster, toast } from "sonner";
 import Loader from "../../UI/Loader";
 
 const ViewSinglePodcast = () => {
@@ -26,9 +27,8 @@ const ViewSinglePodcast = () => {
   const { mutate } = useMutation({
     mutationFn: addPodcastToFav,
     onSuccess: () => {
-      toast("Added to your favourites", {
-        icon: <CircleCheck color="white" />,
-      });
+      queryClient.invalidateQueries({ queryKey: ["favpodcasts"] });
+      toast.success("Added to your favourites");
     },
   });
 
@@ -94,6 +94,7 @@ const ViewSinglePodcast = () => {
             fallback={"Fetching the video"}
           />
         )}
+        <Toaster position="bottom-right" visibleToasts={4} />
       </div>
     </div>
   );

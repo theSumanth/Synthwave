@@ -1,6 +1,10 @@
+import { QueryClient } from "@tanstack/react-query";
+
 import { getAuthToken } from "./auth";
 
 export const url = import.meta.env.VITE_API_URL;
+
+export const queryClient = new QueryClient();
 
 export async function fetchPodcasts({ pageParam }) {
   const response = await fetch(url + `/home/podcasts/${pageParam}`, {

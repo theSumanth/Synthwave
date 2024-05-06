@@ -5,11 +5,12 @@ import Input from "../../UI/Input";
 import PodcastCard from "../../components/PodcastCard";
 
 import { searchPodcast } from "../../util/http";
+import Loader from "../../UI/Loader";
 
 const SearchPodcast = () => {
   const [searchTerm, setSearchTerm] = useState(undefined);
 
-  const { data, isPending, isError, error, mutate } = useMutation({
+  const { data, isPending, mutate } = useMutation({
     mutationKey: ["search", searchTerm],
     mutationFn: searchPodcast,
   });
@@ -24,10 +25,8 @@ const SearchPodcast = () => {
 
     timeoutId = setTimeout(() => {
       mutate({ searchTerm: value });
-    }, 1000);
+    }, 2000);
   };
-
-  console.log(data);
 
   return (
     <div className="m-6 w-2/3">
@@ -45,13 +44,14 @@ const SearchPodcast = () => {
           onChange={handleInputChange}
         />
       </section>
+      {isPending && <Loader message={"Searching"} />}
 
       <section className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
         {data?.map((podcast, index) => {
           return <PodcastCard key={index} podcast={podcast} />;
         })}
       </section>
-      <footer className="text-lg font-bold text-center">
+      <footer className="text-lg font-bold text-center m-6">
         Please type something to search!
       </footer>
     </div>
