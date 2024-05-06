@@ -1,2 +1,2 @@
 # Synthwave
-A Podcast web application
+A Podcast web application 
