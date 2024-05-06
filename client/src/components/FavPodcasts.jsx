@@ -40,7 +40,9 @@ const FavPodcasts = () => {
         />
       )}
       <ul>
-        {data.user.length == 0 && <p>No favourites yet.</p>}
+        {data.user.length == 0 && (
+          <p className="mx-4 p-2">No favourites yet.</p>
+        )}
         {data.user?.map(({ podcast }) => {
           return (
             <SidebarItem
