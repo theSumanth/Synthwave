@@ -17,10 +17,8 @@ const Podcasts = () => {
     queryFn: fetchPodcasts,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.Podcasts?.length
-        ? allPages.length + 1
-        : undefined;
-      console.log("nextpage", nextPage);
+      const nextPage =
+        lastPage.Podcasts?.length === 10 ? allPages.length + 1 : undefined;
       return nextPage;
     },
   });
@@ -29,8 +27,6 @@ const Podcasts = () => {
     if (!page.Podcasts) return [...acc];
     return [...acc, ...page.Podcasts];
   }, []);
-
-  // console.log(podcasts);
 
   return (
     <div className="m-6">
@@ -44,8 +40,8 @@ const Podcasts = () => {
               return <PodcastCard key={podcast._id} podcast={podcast} />;
             })}
         </section>
-        <footer className="text-lg font-bold text-center">
-          {isFetchingNextPage && "Loading more Podcasts"}
+        <footer className="text-lg font-bold text-center my-10">
+          {isFetchingNextPage && "Loading more Podcasts..."}
           {!hasNextPage && "You are all caught up!"}
         </footer>
       </InfiniteScroll>

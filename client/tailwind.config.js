@@ -14,6 +14,9 @@ export default {
         greenDark: "#1B4332",
         greenDark_mx: "#081C15",
       },
+      backgroundImage: {
+        "podcast-background": `url('/images/synthBG.jpg')`,
+      },
     },
   },
   plugins: [],

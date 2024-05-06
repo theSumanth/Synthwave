@@ -1,6 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 const PodcastCard = ({ podcast }) => {
+  const navigate = useNavigate();
+
+  const handlePodcastClick = () => {
+    navigate(`/home/${podcast._id}`);
+  };
+
   return (
-    <div className="flex flex-col m-2 items-center p-4 hover:bg-neutral-800 rounded hover:scale-105 transition-all hover:cursor-pointer">
+    <div
+      onClick={handlePodcastClick}
+      className="flex flex-col m-2 items-center p-4 hover:bg-neutral-800 rounded hover:scale-105 transition-all hover:cursor-pointer"
+    >
       <img
         src={`data:image/png;base64,${podcast.thumbnailUrl}`}
         alt="Podcast thumbnail"

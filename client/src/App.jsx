@@ -11,6 +11,10 @@ import Auth, { action as authAction } from "./pages/Auth";
 import { loader as logoutLoader } from "../src/pages/Logout";
 import "./App.css";
 import PageContextProvider from "./store/PageContextProvider";
+import { checkAuthorized } from "./util/auth";
+import ViewSinglePodcast, {
+  loader as addViewForPodcast,
+} from "./pages/Podcast/ViewSinglePodcast";
 
 const router = createBrowserRouter([
   {
@@ -22,10 +26,16 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <HomeLayout />,
+        loader: checkAuthorized,
         children: [
           { index: true, element: <Podcasts /> },
           { path: "create-podcast", element: <CreatePodcast /> },
           { path: "search", element: <SearchPodcast /> },
+          {
+            path: ":podcastId",
+            element: <ViewSinglePodcast />,
+            loader: addViewForPodcast,
+          },
         ],
       },
       { path: "logout", loader: logoutLoader },

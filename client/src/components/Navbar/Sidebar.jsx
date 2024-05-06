@@ -2,8 +2,11 @@ import { NavLink } from "react-router-dom";
 
 import { LogOut } from "lucide-react";
 import logo from "/images/logo.png";
+import { getUserDetails } from "../../util/auth";
 
 const Sidebar = ({ children }) => {
+  const user = getUserDetails();
+
   return (
     <aside className="h-screen top-0 sticky w-1/4 bg-black flex flex-col justify-between max-md:w-1/6">
       <main className="bg-[#151515] m-2 py-4 px-2 rounded-md">
@@ -28,10 +31,8 @@ const Sidebar = ({ children }) => {
           <span className="max-md:hidden">Logout</span>
         </NavLink>
         <section className="mx-4 p-2 flex flex-col rounded max-md:hidden">
-          <h1 className="font-bold text-base">@balasubh</h1>
-          <span className="text-xs overflow-hidden">
-            balasubhramanyam@gmail.com
-          </span>
+          <h1 className="font-bold text-base">{user.username}</h1>
+          <span className="text-xs overflow-hidden">{user.email}</span>
         </section>
       </div>
     </aside>

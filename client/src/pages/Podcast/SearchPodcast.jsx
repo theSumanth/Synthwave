@@ -10,6 +10,7 @@ const SearchPodcast = () => {
   const [searchTerm, setSearchTerm] = useState(undefined);
 
   const { data, isPending, isError, error, mutate } = useMutation({
+    mutationKey: ["search", searchTerm],
     mutationFn: searchPodcast,
   });
 

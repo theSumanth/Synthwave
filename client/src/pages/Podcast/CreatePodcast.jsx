@@ -1,7 +1,12 @@
 import { useContext, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { ArrowUpFromLine, CircleCheck, SquarePlus } from "lucide-react";
+import {
+  ArrowUpFromLine,
+  CircleCheck,
+  CircleX,
+  SquarePlus,
+} from "lucide-react";
 import { Toaster, toast } from "sonner";
 
 import Button from "../../UI/Button";
@@ -50,7 +55,7 @@ const CreatePodcast = () => {
 
   const pageCtx = useContext(PageContext);
 
-  const { mutate, isPending, isError, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createNewPodcast,
     onSuccess: () => {
       navigate("/home");
@@ -58,6 +63,9 @@ const CreatePodcast = () => {
       toast("Posted your podcast", {
         icon: <CircleCheck color="white" />,
       });
+    },
+    onError: () => {
+      toast("Failed to post the podcast", { icon: <CircleX color="white" /> });
     },
   });
 
@@ -157,8 +165,12 @@ const CreatePodcast = () => {
         visibleToasts={1}
         toastOptions={{
           classNames: {
-            toast: "bg-green-600",
+            toast: "bg-red-600",
             title: "text-white",
+            description: "text-red-400",
+            actionButton: "bg-zinc-400",
+            cancelButton: "bg-orange-400",
+            closeButton: "bg-lime-400",
           },
         }}
       />

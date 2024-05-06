@@ -145,14 +145,9 @@ export async function action({ request }) {
 
   console.log(resData, mode);
 
-  if (
-    mode === "login" &&
-    resData.token &&
-    resData.userDetails &&
-    resData.isAdmin
-  ) {
+  if (mode === "login") {
     localStorage.setItem("token", resData.token);
-    // localStorage.setItem("user", resData.userDetails);
+    localStorage.setItem("user", JSON.stringify(resData.userDetails));
     localStorage.setItem("typeOfLogin", resData.userType);
     console.log(resData);
   }
