@@ -1,13 +1,13 @@
 import { NavLink } from "react-router-dom";
 
-import Button from "./Button";
-
 import logo from "/images/logo.png";
+import Button from "./Button";
+import Footer from "./Footer";
 
 const AuthLandingScene = ({ children }) => {
   return (
-    <section className="h-screen flex flex-col">
-      <nav className="flex items-center bg-[#151515] bg-opacity-50 shadow-lg p-4 w-full justify-between backdrop-blur">
+    <section className="flex flex-col">
+      <nav className="flex items-center bg-[#151515] max-md:sticky fixed top-0 bg-opacity-50 shadow-lg p-4 w-full justify-between backdrop-blur-md">
         <NavLink to={"/"} className="flex items-center gap-2">
           <img
             src={logo}
@@ -15,7 +15,7 @@ const AuthLandingScene = ({ children }) => {
             className="aspect-square h-12 w-12 max-sm:h-8 max-sm:w-8"
           />
           <h1 className="font-bold text-lg max-sm:text-base">
-            Synthwave Podcasts
+            Synthwave Music
           </h1>
         </NavLink>
         <div className="flex items-center max-sm:flex-col max-sm:text-xs">
@@ -35,15 +35,16 @@ const AuthLandingScene = ({ children }) => {
             alt="Music waves in a shape of a moon"
             className="aspect-square h-56 w-56"
           />
-          <h1 className="font-bold text-3xl mb-4">Synthwave Podcasts</h1>
+          <h1 className="font-bold text-3xl mb-4">Synthwave Music</h1>
           <p className="text-center">
-            Listen to uninterrupted Podcasts through{" "}
+            Listen to uninterrupted music through{" "}
             <span className="text-purple-400 font-semibold">Synthwave</span>.
             <br />
             <span className="text-sm font-bold">#StreamSeeminglyThruSynth</span>
           </p>
         </div>
       </main>
+      <Footer />
     </section>
   );
 };

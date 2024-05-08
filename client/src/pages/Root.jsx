@@ -15,6 +15,7 @@ const RootLayout = () => {
     }
 
     if (token === "EXPIRED") {
+      console.log("EXPIRED");
       submit(null, { method: "POST", action: "/logout" });
     }
 

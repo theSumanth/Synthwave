@@ -17,11 +17,13 @@ const SidebarItem = ({
 
   return (
     <li>
-      <NavLink to={path} onClick={() => onPathChange(path)}>
+      <NavLink to={path} onClick={() => (source ? null : onPathChange(path))}>
         <div className={cssClass}>
           {source && <Icon source={source} />}
           {!source && <Icon />}
-          <span className="max-md:hidden overflow-hidden">{label}</span>
+          <span className="max-md:hidden line-clamp-1 overflow-hidden">
+            {label}
+          </span>
         </div>
       </NavLink>
     </li>

@@ -4,6 +4,7 @@ import {
   json,
   redirect,
   useActionData,
+  useNavigation,
   useSearchParams,
 } from "react-router-dom";
 import { Toaster, toast } from "sonner";
@@ -15,6 +16,8 @@ import { CircleX } from "lucide-react";
 
 const Auth = () => {
   const actionData = useActionData();
+
+  const { state } = useNavigation();
 
   const [searchParams] = useSearchParams();
   const mode = searchParams.get("mode");
@@ -68,7 +71,7 @@ const Auth = () => {
           id="email"
           name="email"
           type="mail"
-          placeholder={"Eg. jimhalpert@gmail.com"}
+          placeholder={"Enter Email"}
           required
         />
         <Input
@@ -80,7 +83,15 @@ const Auth = () => {
           required
         />
         <div className="mt-6 flex flex-col">
-          <Button type="submit">{isLogin ? "Log in" : "Sign up"}</Button>
+          <Button type="submit">
+            {isLogin
+              ? state === "submitting"
+                ? "Logging in..."
+                : "Login"
+              : state === "submitting"
+              ? "Signing up..."
+              : "Sign up"}
+          </Button>
           {!isAdmin && (
             <Button underline type="button">
               <NavLink
@@ -149,7 +160,7 @@ export async function action({ request }) {
     localStorage.setItem("typeOfLogin", resData.userType);
 
     const expirationDate = new Date();
-    expirationDate.setHours(expirationDate.getHours() + 1);
+    expirationDate.setHours(expirationDate.getHours() + 2);
 
     localStorage.setItem("expiration", expirationDate.toISOString());
   }

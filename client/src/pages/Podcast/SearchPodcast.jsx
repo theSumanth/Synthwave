@@ -6,6 +6,7 @@ import PodcastCard from "../../components/PodcastCard";
 
 import { searchPodcast } from "../../util/http";
 import Loader from "../../UI/Loader";
+import H1 from "../../UI/H1";
 
 const SearchPodcast = () => {
   const [searchTerm, setSearchTerm] = useState(undefined);
@@ -25,20 +26,18 @@ const SearchPodcast = () => {
 
     timeoutId = setTimeout(() => {
       mutate({ searchTerm: value });
-    }, 2000);
+    }, 1500);
   };
 
   return (
     <div className="m-6 w-2/3">
-      <h1 className="font-bold text-3xl mb-4 text-purple-500">
-        Search Podcasts
-      </h1>
+      <H1>Search a Song</H1>
       <section className="flex items-center gap-2 max-sm:flex-row">
         <Input
           id="name"
           name="name"
           type="text"
-          placeholder={"Search a Podcast"}
+          placeholder={"Search something"}
           required
           defaultValue={searchTerm}
           onChange={handleInputChange}
@@ -46,7 +45,7 @@ const SearchPodcast = () => {
       </section>
       {isPending && <Loader message={"Searching"} />}
 
-      <section className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+      <section className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:place-items-center">
         {data?.map((podcast, index) => {
           return <PodcastCard key={index} podcast={podcast} />;
         })}

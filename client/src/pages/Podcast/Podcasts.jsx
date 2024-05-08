@@ -4,6 +4,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import PodcastCard from "../../components/PodcastCard";
 import Loader from "../../UI/Loader";
 import Error from "../Error";
+import H1 from "../../UI/H1";
 
 const Podcasts = ({ fetchFn, qKey }) => {
   const {
@@ -36,10 +37,10 @@ const Podcasts = ({ fetchFn, qKey }) => {
 
   return (
     <div className="m-6">
-      <h1 className="font-bold text-3xl mb-4 text-purple-500">{qKey}</h1>
+      <H1>{qKey}</H1>
       {isError && (
         <Error
-          title="Failed to fetch selectable images"
+          title="An Error occured"
           message={error?.info?.message || "Failed to fetch images"}
         />
       )}

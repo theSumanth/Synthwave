@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { DiamondPlus, Flame, Home, Search } from "lucide-react";
+import { CirclePlus, Flame, Home, Search } from "lucide-react";
 
 import Sidebar from "./Sidebar";
 import SidebarItem from "./SidebarItem";
@@ -14,18 +14,18 @@ const Navbar = () => {
   const navbarElements = [
     { text: "Home", Icon: Home, path: "/home" },
     { text: "Search", Icon: Search, path: "/home/search" },
-    { text: "Trending Podcasts", Icon: Flame, path: "/home/trending-podcasts" },
+    { text: "Trending Music", Icon: Flame, path: "/home/trending-music" },
     {
-      text: "Create a Podcast",
-      Icon: DiamondPlus,
-      path: "/home/create-podcast",
+      text: "Post a song",
+      Icon: CirclePlus,
+      path: "/home/post-song",
     },
   ];
 
   return (
     <Sidebar>
       {navbarElements.map((element) => {
-        if (!isAdmin && element.path === "/home/create-podcast") return null;
+        if (!isAdmin && element.path === "/home/post-song") return null;
 
         return (
           <SidebarItem

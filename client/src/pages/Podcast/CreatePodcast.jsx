@@ -14,6 +14,7 @@ import CreatePodcastForm from "../../components/CreatePodcastForm";
 import { PageContext } from "../../store/PageContextProvider";
 import { createNewPodcast } from "../../util/http";
 import { checkIsAdmin } from "../../util/auth";
+import H1 from "../../UI/H1";
 
 const CreatePodcast = () => {
   const inputRef = useRef();
@@ -90,7 +91,7 @@ const CreatePodcast = () => {
 
   return (
     <div className="m-6 w-1/3 flex flex-col max-md:w-full">
-      <h1 className="font-bold text-3xl mb-4 text-purple-500">Post a Song</h1>
+      <H1>Post a Song</H1>
       <form
         className="flex flex-col"
         method="POST"
@@ -156,7 +157,7 @@ const CreatePodcast = () => {
             onClick={() => {
               navigate("..");
               pageCtx.changePageStatus("/home");
-              toast("Posted your podcast", {
+              toast("Posted your songt", {
                 icon: <CircleCheck color="white" />,
               });
             }}
@@ -164,7 +165,7 @@ const CreatePodcast = () => {
             Cancel
           </Button>
           <Button type="submit" disabled={isPending}>
-            {isPending ? "Posting" : "Post the Podcast"}
+            {isPending ? "Posting..." : "Post the Song"}
           </Button>
         </div>
       </form>

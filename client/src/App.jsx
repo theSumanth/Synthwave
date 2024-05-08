@@ -10,18 +10,18 @@ import RootLayout from "./pages/Root";
 import HomeLayout from "./pages/HomeLayout";
 import LoginLayout from "./pages/LoginLayout";
 import Podcasts from "./pages/Podcast/Podcasts";
+import SearchPodcast from "./pages/Podcast/SearchPodcast";
+import PageContextProvider from "./store/PageContextProvider";
 import CreatePodcast, {
   loader as checkPrivateRoute,
 } from "./pages/Podcast/CreatePodcast";
-import SearchPodcast from "./pages/Podcast/SearchPodcast";
 import Error from "./pages/Error.jsx";
-import PageContextProvider from "./store/PageContextProvider";
 import ViewSinglePodcast, {
   loader as addViewForPodcast,
 } from "./pages/Podcast/ViewSinglePodcast";
 import Auth, { action as authAction } from "./pages/Auth";
-import { action as logoutAction } from "../src/pages/Logout";
 import { checkAuthorized } from "./util/auth";
+import { action as logoutAction } from "../src/pages/Logout";
 import {
   fetchPodcasts,
   fetchTrendingPodcasts,
@@ -39,11 +39,11 @@ const routeDefinitons = createRoutesFromElements(
         <Route
           index
           element={
-            <Podcasts fetchFn={fetchPodcasts} qKey={"Synthwave Podcasts"} />
+            <Podcasts fetchFn={fetchPodcasts} qKey={"Synthwave Music"} />
           }
         />
         <Route
-          path="create-podcast"
+          path="post-song"
           element={<CreatePodcast />}
           loader={checkPrivateRoute}
         />
@@ -54,12 +54,9 @@ const routeDefinitons = createRoutesFromElements(
           loader={addViewForPodcast}
         />
         <Route
-          path="trending-podcasts"
+          path="trending-music"
           element={
-            <Podcasts
-              fetchFn={fetchTrendingPodcasts}
-              qKey={"Trending Podcasts"}
-            />
+            <Podcasts fetchFn={fetchTrendingPodcasts} qKey={"Trending Music"} />
           }
         />
       </Route>
@@ -68,60 +65,6 @@ const routeDefinitons = createRoutesFromElements(
 );
 
 const router = createBrowserRouter(routeDefinitons);
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <RootLayout />,
-//     errorElement: (
-//       <Error
-//         message={"Failed to provide response"}
-//         title={"An error occured"}
-//       />
-//     ),
-//     children: [
-//       { index: true, element: <LoginLayout /> },
-//       { path: "auth", element: <Auth />, action: authAction },
-//       {
-//         path: "home",
-//         element: <HomeLayout />,
-//         loader: checkAuthorized,
-//         children: [
-//           {
-//             index: true,
-//             element: (
-//               <Podcasts fetchFn={fetchPodcasts} qKey={"Synthwave Podcasts"} />
-//             ),
-//           },
-//           {
-//             path: "create-podcast",
-//             element: <CreatePodcast />,
-//             loader: () => {
-//               if (!checkIsAdmin()) return redirect("/home");
-//               return null;
-//             },
-//           },
-//           { path: "search", element: <SearchPodcast /> },
-//           {
-//             path: ":podcastId",
-//             element: <ViewSinglePodcast />,
-//             loader: addViewForPodcast,
-//           },
-//           {
-//             path: "trending-podcasts",
-//             element: (
-//               <Podcasts
-//                 fetchFn={fetchTrendingPodcasts}
-//                 qKey={"Trending Podcasts"}
-//               />
-//             ),
-//           },
-//         ],
-//       },
-//       { path: "logout", action: logoutAction },
-//     ],
-//   },
-// ]);
 
 function App() {
   return (
