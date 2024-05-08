@@ -1,6 +1,6 @@
 import { useContext, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import {
   ArrowUpFromLine,
   CircleCheck,
@@ -10,14 +10,15 @@ import {
 import { Toaster, toast } from "sonner";
 
 import Button from "../../UI/Button";
-import { createNewPodcast } from "../../util/http";
-import { PageContext } from "../../store/PageContextProvider";
 import CreatePodcastForm from "../../components/CreatePodcastForm";
+import { PageContext } from "../../store/PageContextProvider";
+import { createNewPodcast } from "../../util/http";
+import { checkIsAdmin } from "../../util/auth";
 
 const CreatePodcast = () => {
   const inputRef = useRef();
   const inputRef2 = useRef();
-  const [podcastFile, setPodcastFile] = useState(null);
+  const [audioFile, setAudioFile] = useState(null);
   const [imageObj, setImageObj] = useState({
     imageBase64: "",
     imageUrl: null,
@@ -27,7 +28,7 @@ const CreatePodcast = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setPodcastFile(file);
+    setAudioFile(file);
     toast.success("File uploaded succesfully", {
       classNames: {
         toast: "bg-green-400",
@@ -77,25 +78,19 @@ const CreatePodcast = () => {
     },
   });
 
-  const [fileType, setFileType] = useState("audio");
-
   const handlePodcastUpload = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    formData.append("file", podcastFile);
+    formData.append("file", audioFile);
     formData.append("thumbnailUrl", imageObj.imageBase64);
-    formData.append("category", fileType);
+    formData.append("category", "audio");
 
     mutate({ formData });
   };
 
-  console.log(fileType);
-
   return (
     <div className="m-6 w-1/3 flex flex-col max-md:w-full">
-      <h1 className="font-bold text-3xl mb-4 text-purple-500">
-        Create a Podcast
-      </h1>
+      <h1 className="font-bold text-3xl mb-4 text-purple-500">Post a Song</h1>
       <form
         className="flex flex-col"
         method="POST"
@@ -121,16 +116,13 @@ const CreatePodcast = () => {
           {!imageObj.imageUrl && <SquarePlus />}
         </div>
 
-        <CreatePodcastForm
-          onChangeType={(value) => setFileType(value)}
-          fileType={fileType}
-        />
+        <CreatePodcastForm />
 
         <div className="my-4">
           <input
             ref={inputRef}
             type="file"
-            accept={fileType === "audio" ? "audio/*" : "video/*"}
+            accept="audio/*"
             onChange={handleFileChange}
             className="hidden"
           />
@@ -142,18 +134,17 @@ const CreatePodcast = () => {
             <span className="text-xs">Upload file</span>
           </Button>
 
-          {fileType === "audio" && podcastFile && (
+          {audioFile && (
             <div className="mt-4">
               <audio controls>
                 <source
-                  src={URL.createObjectURL(podcastFile)}
-                  type={podcastFile.type}
+                  src={URL.createObjectURL(audioFile)}
+                  type={audioFile.type}
                 />
                 Your browser does not support the audio element.
               </audio>
             </div>
           )}
-          {fileType === "video" && podcastFile && <span>{podcastFile}</span>}
         </div>
         <div
           id="form-actions"
@@ -183,3 +174,8 @@ const CreatePodcast = () => {
 };
 
 export default CreatePodcast;
+
+export function loader() {
+  if (!checkIsAdmin()) return redirect("/home");
+  return null;
+}

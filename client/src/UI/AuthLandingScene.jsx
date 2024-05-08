@@ -7,7 +7,7 @@ import logo from "/images/logo.png";
 const AuthLandingScene = ({ children }) => {
   return (
     <section className="h-screen flex flex-col">
-      <nav className="flex items-center bg-black bg-opacity-50 shadow-lg p-4 w-full justify-between backdrop-blur">
+      <nav className="flex items-center bg-[#151515] bg-opacity-50 shadow-lg p-4 w-full justify-between backdrop-blur">
         <NavLink to={"/"} className="flex items-center gap-2">
           <img
             src={logo}

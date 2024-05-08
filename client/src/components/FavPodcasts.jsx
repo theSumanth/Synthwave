@@ -27,12 +27,10 @@ const FavPodcasts = () => {
   console.log("data", data);
 
   return (
-    <main className="flex flex-col bg-[#151515] m-2 py-4 px-2 rounded-md overflow-y-scroll h-full">
-      <div className="flex items-center justify-start p-2 mx-4 max-md:mx-0 max-md:justify-center">
-        <h1 className="font-bold text-base max-md:hidden">
-          Favourite Podcasts
-        </h1>
-      </div>
+    <main className="flex flex-col bg-[#151515] m-2 px-2 rounded-md overflow-y-scroll h-full">
+      <h1 className="font-bold text-base px-6 py-4 max-md:hidden sticky top-0 bg-inherit">
+        Favourite Podcasts
+      </h1>
       {isError && (
         <Error
           message={error?.message || "Failed to fetch favourites"}
@@ -47,7 +45,6 @@ const FavPodcasts = () => {
           return (
             <SidebarItem
               key={podcast._id}
-              // Icon={<Icon source={podcast.thumbnailUrl} />}
               Icon={Icon}
               path={`/home/${podcast._id}`}
               label={podcast.podcastName}

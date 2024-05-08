@@ -44,7 +44,7 @@ const Podcasts = ({ fetchFn, qKey }) => {
         />
       )}
       <InfiniteScroll loadMore={fetchNextPage} hasMore={hasNextPage}>
-        <section className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+        <section className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:place-items-center">
           {podcasts &&
             podcasts.map((podcast) => {
               return <PodcastCard key={podcast._id} podcast={podcast} />;

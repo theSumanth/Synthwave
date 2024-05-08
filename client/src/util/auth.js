@@ -1,4 +1,4 @@
-import { json, redirect } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 export function getAuthToken() {
   const token = localStorage.getItem("token");
@@ -15,6 +15,15 @@ export function getAuthToken() {
   return token;
 }
 
+export function getAuthDuration() {
+  const date = localStorage.getItem("expiration");
+  const expirationDate = new Date(date);
+  const now = new Date();
+  const duration = expirationDate.getTime() - now.getTime();
+
+  return duration;
+}
+
 export function getUserDetails() {
   const userDetails = JSON.parse(localStorage.getItem("user"));
 
@@ -25,16 +34,6 @@ export function checkIsAdmin() {
   const userType = localStorage.getItem("typeOfLogin");
 
   return userType == "admin";
-}
-
-export function checkAuthLoader() {
-  const token = getAuthToken();
-
-  if (!token) {
-    return json({ message: "NOT AUTHENTICATED" });
-  }
-
-  return null;
 }
 
 export function checkAuthorized() {
@@ -48,13 +47,4 @@ export function checkAuthorized() {
   }
 
   return null;
-}
-
-export function getAuthDuration() {
-  const date = localStorage.getItem("expiration");
-  const expirationDate = new Date(date);
-  const now = new Date();
-  const duration = expirationDate.getTime() - now.getTime();
-
-  return duration;
 }

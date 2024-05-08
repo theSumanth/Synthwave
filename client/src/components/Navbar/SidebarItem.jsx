@@ -21,7 +21,7 @@ const SidebarItem = ({
         <div className={cssClass}>
           {source && <Icon source={source} />}
           {!source && <Icon />}
-          <span className="max-md:hidden">{label}</span>
+          <span className="max-md:hidden overflow-hidden">{label}</span>
         </div>
       </NavLink>
     </li>
