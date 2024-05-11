@@ -15,7 +15,7 @@ const AuthLandingScene = ({ children }) => {
             className="aspect-square h-12 w-12 max-sm:h-8 max-sm:w-8"
           />
           <h1 className="font-bold text-lg max-sm:text-base">
-            Synthwave Music
+            Synthwave Podcasts
           </h1>
         </NavLink>
         <div className="flex items-center max-sm:flex-col max-sm:text-xs">
@@ -35,9 +35,9 @@ const AuthLandingScene = ({ children }) => {
             alt="Music waves in a shape of a moon"
             className="aspect-square h-56 w-56"
           />
-          <h1 className="font-bold text-3xl mb-4">Synthwave Music</h1>
+          <h1 className="font-bold text-3xl mb-4">Synthwave Podcasts</h1>
           <p className="text-center">
-            Listen to uninterrupted music through{" "}
+            Listen to uninterrupted Podcasts through{" "}
             <span className="text-purple-400 font-semibold">Synthwave</span>.
             <br />
             <span className="text-sm font-bold">#StreamSeeminglyThruSynth</span>

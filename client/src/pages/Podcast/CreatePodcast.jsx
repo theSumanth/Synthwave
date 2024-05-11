@@ -91,7 +91,7 @@ const CreatePodcast = () => {
 
   return (
     <div className="m-6 w-1/3 flex flex-col max-md:w-full">
-      <H1>Post a Song</H1>
+      <H1>Create a Podcast</H1>
       <form
         className="flex flex-col"
         method="POST"
@@ -157,7 +157,7 @@ const CreatePodcast = () => {
             onClick={() => {
               navigate("..");
               pageCtx.changePageStatus("/home");
-              toast("Posted your songt", {
+              toast("Posted your Podcast", {
                 icon: <CircleCheck color="white" />,
               });
             }}
@@ -165,7 +165,7 @@ const CreatePodcast = () => {
             Cancel
           </Button>
           <Button type="submit" disabled={isPending}>
-            {isPending ? "Posting..." : "Post the Song"}
+            {isPending ? "Posting..." : "Post the Podcast"}
           </Button>
         </div>
       </form>

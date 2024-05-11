@@ -14,18 +14,18 @@ const Navbar = () => {
   const navbarElements = [
     { text: "Home", Icon: Home, path: "/home" },
     { text: "Search", Icon: Search, path: "/home/search" },
-    { text: "Trending Music", Icon: Flame, path: "/home/trending-music" },
+    { text: "Trending Podcasts", Icon: Flame, path: "/home/trending-podcasts" },
     {
-      text: "Post a song",
+      text: "Create a Podcast",
       Icon: CirclePlus,
-      path: "/home/post-song",
+      path: "/home/create-podcast",
     },
   ];
 
   return (
     <Sidebar>
       {navbarElements.map((element) => {
-        if (!isAdmin && element.path === "/home/post-song") return null;
+        if (!isAdmin && element.path === "/home/create-podcast") return null;
 
         return (
           <SidebarItem

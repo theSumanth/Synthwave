@@ -39,11 +39,11 @@ const routeDefinitons = createRoutesFromElements(
         <Route
           index
           element={
-            <Podcasts fetchFn={fetchPodcasts} qKey={"Synthwave Music"} />
+            <Podcasts fetchFn={fetchPodcasts} qKey={"Synthwave Podcasts"} />
           }
         />
         <Route
-          path="post-song"
+          path="create-podcast"
           element={<CreatePodcast />}
           loader={checkPrivateRoute}
         />
@@ -54,9 +54,12 @@ const routeDefinitons = createRoutesFromElements(
           loader={addViewForPodcast}
         />
         <Route
-          path="trending-music"
+          path="trending-podcasts"
           element={
-            <Podcasts fetchFn={fetchTrendingPodcasts} qKey={"Trending Music"} />
+            <Podcasts
+              fetchFn={fetchTrendingPodcasts}
+              qKey={"Trending Podcasts"}
+            />
           }
         />
       </Route>

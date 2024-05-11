@@ -10,9 +10,10 @@ import H1 from "../../UI/H1";
 
 const SearchPodcast = () => {
   const [searchTerm, setSearchTerm] = useState(undefined);
+  const [isSearching, setIsSearching] = useState(false);
 
   const { data, isPending, mutate } = useMutation({
-    mutationKey: ["search", searchTerm],
+    mutationKey: ["search", { search: searchTerm }],
     mutationFn: searchPodcast,
   });
 
@@ -20,18 +21,20 @@ const SearchPodcast = () => {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setSearchTerm(value);
+    setIsSearching(true);
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
     timeoutId = setTimeout(() => {
       mutate({ searchTerm: value });
+      setIsSearching(false);
     }, 1500);
   };
 
   return (
     <div className="m-6 w-2/3">
-      <H1>Search a Song</H1>
+      <H1>Search a Podcast</H1>
       <section className="flex items-center gap-2 max-sm:flex-row">
         <Input
           id="name"
@@ -51,7 +54,7 @@ const SearchPodcast = () => {
         })}
       </section>
       <footer className="text-lg font-bold text-center m-6">
-        Please type something to search!
+        {!isSearching && "Please type something to search!"}
       </footer>
     </div>
   );

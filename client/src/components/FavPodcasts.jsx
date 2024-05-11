@@ -29,7 +29,7 @@ const FavPodcasts = () => {
   return (
     <main className="flex flex-col bg-[#151515] m-2 px-2 rounded-md max-md:hidden overflow-y-scroll h-full">
       <h1 className="font-bold text-base px-6 py-4 max-md:hidden sticky top-0 bg-inherit">
-        Favourite Songs
+        Favourite Podcasts
       </h1>
       {isError && (
         <Error
@@ -42,7 +42,7 @@ const FavPodcasts = () => {
       )}
       <ul>
         {data.user?.map(({ podcast }) => {
-          let favouriteSong = (
+          let favouritePodcast = (
             <div className="flex flex-col">
               <h1 className="line-clamp-1">{podcast.podcastName}</h1>
               <span className="text-xs text-purple-400">{podcast.speaker}</span>
@@ -54,7 +54,7 @@ const FavPodcasts = () => {
               key={podcast._id}
               Icon={Icon}
               path={`/home/${podcast._id}`}
-              label={favouriteSong}
+              label={favouritePodcast}
               source={podcast.thumbnailUrl}
             />
           );
