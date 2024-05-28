@@ -28,7 +28,7 @@ const FavPodcasts = () => {
 
   return (
     <main className="flex flex-col bg-[#151515] m-2 px-2 rounded-md max-md:hidden overflow-y-scroll h-full">
-      <h1 className="font-bold text-base px-6 py-4 max-md:hidden sticky top-0 bg-inherit">
+      <h1 className="font-bold text-base px-6 py-4 max-md:hidden sticky z-10 top-0 bg-inherit">
         Favourite Podcasts
       </h1>
       {isError && (

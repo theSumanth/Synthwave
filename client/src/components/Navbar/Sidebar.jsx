@@ -10,7 +10,7 @@ const Sidebar = ({ children }) => {
   const user = getUserDetails();
 
   return (
-    <aside className="h-screen top-0 sticky w-1/4 bg-black flex flex-col justify-between max-md:w-1/6">
+    <aside className="h-screen top-0 sticky w-1/4 bg-black flex flex-col justify-between max-md:w-1/6 min-w-20">
       <NavbarHelper>
         <div className="flex items-center justify-start p-2 mx-4 max-md:mx-0 max-md:justify-center">
           <img

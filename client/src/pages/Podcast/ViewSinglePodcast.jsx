@@ -48,7 +48,8 @@ const ViewSinglePodcast = () => {
   );
 
   return (
-    <div className="flex flex-col items-center w-[75%] bg-cover h-screen bg-center bg-podcast-background">
+    // <div className="flex flex-col items-center bg-cover h-screen bg-center bg-podcast-background">
+    <div className="flex flex-col w-[75%] items-center max-md:w-full">
       <div className="p-6 bg-gradient-to-b from-neutral-950 w-full">
         <h1 className="flex mb-2 items-center gap-3 justify-between">
           <span className="font-bold text-3xl text-purple-500">
