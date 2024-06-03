@@ -4,6 +4,7 @@ import { fetchFavPodcasts } from "../util/http";
 import Loader from "../UI/Loader";
 import Error from "../pages/Error";
 import SidebarItem from "./Navbar/SidebarItem";
+import FavPodcastSkeleton from "./skeletons/FavPodcastSkeleton";
 
 const Icon = ({ source }) => {
   return (
@@ -16,15 +17,16 @@ const Icon = ({ source }) => {
 };
 
 const FavPodcasts = () => {
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["favpodcasts"],
     queryFn: fetchFavPodcasts,
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isPending) {
-    return <Loader message={"Fetching favourites..."} />;
-  }
+  // const podcasts = data?.pages.reduce((acc, page) => {
+  //   if (!page.podcasts) return [...acc];
+  //   return [...acc, ...page.podcasts];
+  // }, []);
 
   return (
     <main className="flex flex-col bg-[#151515] m-2 px-2 rounded-md max-md:hidden overflow-y-scroll h-full">
@@ -37,11 +39,12 @@ const FavPodcasts = () => {
           title={"An error occured"}
         />
       )}
-      {data.user?.length === 0 && (
+      {data?.user?.length === 0 && (
         <p className="mx-4 p-2">No favourites yet.</p>
       )}
       <ul>
-        {data.user?.map(({ podcast }) => {
+        {isLoading && <FavPodcastSkeleton count={5} />}
+        {data?.user?.map(({ podcast }) => {
           let favouritePodcast = (
             <div className="flex flex-col">
               <h1 className="line-clamp-1">{podcast.podcastName}</h1>
