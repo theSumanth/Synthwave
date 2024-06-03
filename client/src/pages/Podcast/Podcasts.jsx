@@ -5,6 +5,7 @@ import PodcastCard from "../../components/PodcastCard";
 import Loader from "../../UI/Loader";
 import Error from "../Error";
 import H1 from "../../UI/H1";
+import PodcastCardSkeleton from "../../components/skeletons/PodcastCardSkeleton";
 
 const Podcasts = ({ fetchFn, qKey }) => {
   const {
@@ -31,9 +32,9 @@ const Podcasts = ({ fetchFn, qKey }) => {
     return [...acc, ...page.podcasts];
   }, []);
 
-  if (isLoading) {
-    return <Loader message={"Fetching the podcats! Stand by please"} />;
-  }
+  // if (isLoading) {
+  //   return <Loader message={"Fetching the podcats! Stand by please"} />;
+  // }
 
   return (
     <div className="m-6">
@@ -50,6 +51,9 @@ const Podcasts = ({ fetchFn, qKey }) => {
             podcasts.map((podcast) => {
               return <PodcastCard key={podcast._id} podcast={podcast} />;
             })}
+          {(isLoading || isFetchingNextPage) && (
+            <PodcastCardSkeleton cardsCount={10} />
+          )}
         </section>
         <footer className="text-lg font-bold text-center my-10">
           {isFetchingNextPage && "Loading more Podcasts..."}

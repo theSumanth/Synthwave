@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 
+import { SkeletonTheme } from "react-loading-skeleton";
+
 import RootLayout from "./pages/Root";
 import HomeLayout from "./pages/HomeLayout";
 import LoginLayout from "./pages/LoginLayout";
@@ -73,7 +75,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <PageContextProvider>
-        <RouterProvider router={router} />
+        <SkeletonTheme baseColor="#202020" highlightColor="#444">
+          <RouterProvider router={router} />
+        </SkeletonTheme>
       </PageContextProvider>
     </QueryClientProvider>
   );
