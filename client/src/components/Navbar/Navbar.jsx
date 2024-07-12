@@ -1,10 +1,11 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { CirclePlus, Flame, Home, Search } from "lucide-react";
 
 import Sidebar from "./Sidebar";
 import SidebarItem from "./SidebarItem";
 import { PageContext } from "../../store/PageContextProvider";
 import { checkIsAdmin } from "../../util/auth";
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const pageCtx = useContext(PageContext);
@@ -21,6 +22,12 @@ const Navbar = () => {
       path: "/home/create-podcast",
     },
   ];
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    pageCtx.changePageStatus(pathname);
+  }, [pathname, pageCtx]);
 
   return (
     <Sidebar>
