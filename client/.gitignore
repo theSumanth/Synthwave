@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 spotify_podcasts
-env
+.env
 
 # Editor directories and files
 .vscode/*
